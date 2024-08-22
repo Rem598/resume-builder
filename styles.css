@@ -1,0 +1,126 @@
+/* styles.css */
+/* Add this to the top of your styles.css */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
+
+
+/* styles.css */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+}
+
+.main-container {
+    font-size: 1.5rem;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+.section-box {
+    display: block;
+    margin-bottom: 10px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fafafa;
+    text-align: center;
+    font-size: 24px;
+
+}
+
+.section-link {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 18px;
+    color: #007bff;
+    text-decoration: none;
+    border-radius: 4px;
+    background-color: #e9ecef;
+}
+
+.section-link:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+.form-group, .education-item, .work-experience-item, .skill-item, .reference-item {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fafafa;
+}
+
+.form-group label, .education-item input, .work-experience-item input, .skill-item input, .reference-item input, .skill-item textarea, .reference-item textarea {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.remove-skill, .remove-education, .remove-work-experience, .remove-reference {
+    background-color: #dc3545;
+}
+
+.remove-skill:hover, .remove-education:hover, .remove-work-experience:hover, .remove-reference:hover {
+    background-color: #c82333;
+}
+
+#skills-list, #education-list, #work-experience-list, #references-list {
+    margin-bottom: 20px;
+}
+
+#skills-list .skill-item, #education-list .education-item, #work-experience-list .work-experience-item, #references-list .reference-item {
+    display: flex;
+    flex-direction: column;
+}
+
+button[type="submit"] {
+    margin-top: 20px;
+}
+
+.back-button {
+    display: inline-block;
+    margin-top: 20px;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.back-button:hover {
+    text-decoration: underline;
+}

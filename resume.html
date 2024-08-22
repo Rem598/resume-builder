@@ -1,0 +1,37 @@
+<!-- resume.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Generated Resume</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+</head>
+<body onload="populateResume()">
+    <div class="container">
+        <h1 id="resumeFullName"></h1>
+        <p id="resumeEmail"></p>
+        <p id="resumePhone"></p>
+        <p id="resumeAddress"></p>
+        
+        <h3>Objective</h3>
+        <p id="resumeObjective"></p>
+
+        <h3>Education</h3>
+        <div id="resumeEducation"></div>
+
+        <h3>Work Experience</h3>
+        <div id="resumeExperience"></div>
+
+        <h3>Skills</h3>
+        <div id="resumeSkills"></div>
+
+        <h3>References</h3>
+        <p id="resumeReferences"></p>
+
+        <button onclick="downloadResume()">Download Resume as PDF</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

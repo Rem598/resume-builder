@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work Experience</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="main-container">
+        <h1>Work Experience</h1>
+        <form id="work-experience-form">
+            <div id="work-experience-list">
+                <div class="work-experience-item">
+                    <input type="text" name="title" placeholder="Enter job title" required>
+                    <input type="text" name="company" placeholder="Enter company name" required>
+                    <input type="text" name="date-from" placeholder="Date From (YYYY-MM-DD)" required>
+                    <input type="text" name="date-to" placeholder="Date To (YYYY-MM-DD)" required>
+                    <textarea name="description" placeholder="Enter job description" required></textarea>
+                    <button type="button" class="remove-work-experience">Remove</button>
+                </div>
+            </div>
+            <button type="button" id="add-work-experience">Add Work Experience</button>
+            <button type="submit">Save Work Experience</button>
+        </form>
+        <a href="index.html" class="back-button">Back to Main</a>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

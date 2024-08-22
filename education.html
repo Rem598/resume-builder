@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Education</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="main-container">
+        <h1>Education</h1>
+        <form id="education-form">
+            <div id="education-list">
+                <div class="education-item">
+                    <input type="text" name="school" placeholder="Enter school name" required>
+                    <input type="text" name="date-from" placeholder="Date From (YYYY-MM-DD)" required>
+                    <input type="text" name="date-to" placeholder="Date To (YYYY-MM-DD)" required>
+                    <input type="text" name="grade" placeholder="Enter grade" required>
+                    <button type="button" class="remove-education">Remove</button>
+                </div>
+            </div>
+            <button type="button" id="add-education">Add Education</button>
+            <button type="submit">Save Education</button>
+        </form>
+        <a href="index.html" class="back-button">Back to Main</a>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
