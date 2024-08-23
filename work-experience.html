@@ -14,8 +14,8 @@
                 <div class="work-experience-item">
                     <input type="text" name="title" placeholder="Enter job title" required>
                     <input type="text" name="company" placeholder="Enter company name" required>
-                    <input type="text" name="date-from" placeholder="Date From (YYYY-MM-DD)" required>
-                    <input type="text" name="date-to" placeholder="Date To (YYYY-MM-DD)" required>
+                    <input type="date" name="date-from" placeholder="Date From (YYYY-MM-DD)" required>
+                    <input type="date" name="date-to" placeholder="Date To (YYYY-MM-DD)" required>
                     <textarea name="description" placeholder="Enter job description" required></textarea>
                     <button type="button" class="remove-work-experience">Remove</button>
                 </div>
@@ -23,8 +23,11 @@
             <button type="button" id="add-work-experience">Add Work Experience</button>
             <button type="submit">Save Work Experience</button>
         </form>
+        <div id="work-experience-display"></div>
+        <button id="next-button" style="display: none;" onclick="window.location.href='skills.html'">Next</button>
         <a href="index.html" class="back-button">Back to Main</a>
     </div>
     <script src="script.js"></script>
 </body>
 </html>
+<footer>Resume builder 2024</footer>

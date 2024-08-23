@@ -1,14 +1,24 @@
-<!-- resume.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Generated Resume</title>
+    <style>
+        /* Add some basic styling for preview */
+        #resume-preview {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        #resume-template-select {
+            margin-bottom: 10px;
+        }
+    </style>
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
 </head>
-<body onload="populateResume()">
+<body>
     <div class="container">
         <h1 id="resumeFullName"></h1>
         <p id="resumeEmail"></p>
@@ -30,8 +40,10 @@
         <h3>References</h3>
         <p id="resumeReferences"></p>
 
-        <button onclick="downloadResume()">Download Resume as PDF</button>
+        <button id="generate-resume">Generate Resume</button>
+        <button id="download-resume" style="display:none;">Download Resume as PDF</button>
     </div>
     <script src="script.js"></script>
 </body>
+<footer>Resume builder 2024</footer>
 </html>
