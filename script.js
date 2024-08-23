@@ -1,130 +1,84 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Skills Section
-    const addSkillButton = document.getElementById('add-skill');
-    const skillsList = document.getElementById('skills-list');
+    const sections = [
+        {formId: 'personal-details-form', displayId: 'personal-details-display', fields: ['name', 'age'], nextPage: 'education.html'},
+        {formId: 'education-form', displayId: 'education-display', fields: ['school', 'date-from', 'date-to', 'grade'], nextPage: 'work-experience.html'},
+        {formId: 'work-experience-form', displayId: 'work-experience-display', fields: ['title', 'company', 'date-from', 'date-to'], nextPage: 'skills.html'},
+        {formId: 'skills-form', displayId: 'skills-display', fields: ['skill', 'proficiency'], nextPage: 'objective.html'},
+        {formId: 'objective-form', displayId: 'objective-display', fields: ['objective'], nextPage: 'references.html'},
+        {formId: 'references-form', displayId: 'references-display', fields: ['name', 'title', 'phone', 'email'], nextPage: 'resume.html'}
+    ];
 
-    if (addSkillButton && skillsList) {
-        addSkillButton.addEventListener('click', () => {
-            const skillItem = document.createElement('div');
-            skillItem.classList.add('skill-item');
-            skillItem.innerHTML = `
-                <input type="text" name="skill" placeholder="Enter skill" required>
-                <input type="text" name="proficiency" placeholder="Enter proficiency level (e.g., Intermediate)" required>
-                <button type="button" class="remove-skill">Remove</button>
-            `;
-            skillsList.appendChild(skillItem);
-
-            skillItem.querySelector('.remove-skill').addEventListener('click', () => {
-                skillsList.removeChild(skillItem);
-            });
-        });
-    }
-
-    // Form submission and display handling with "Next" button
-    const handleSubmitAndDisplay = (formId, displayId, fields, nextPage) => {
-        const form = document.getElementById(formId);
-        const displayElement = document.getElementById(displayId);
+    sections.forEach(section => {
+        const form = document.getElementById(section.formId);
+        const displayElement = document.getElementById(section.displayId);
 
         if (form && displayElement) {
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
                 const formData = new FormData(this);
                 const details = Object.fromEntries(formData.entries());
-                
+
                 const item = document.createElement('div');
-                
-                fields.forEach(field => {
-                    item.innerHTML += `<p><strong>${field.label}:</strong> ${details[field.name]}</p>`;
+                section.fields.forEach(field => {
+                    item.innerHTML += `<p><strong>${field}:</strong> ${details[field]}</p>`;
                 });
 
                 item.innerHTML += '<hr>';
                 displayElement.insertBefore(item, displayElement.firstChild);
 
-                // Reset the form
                 this.reset();
 
-                // Show "Next" button if a next page is provided
-                if (nextPage) {
+                if (section.nextPage) {
                     const nextButton = document.createElement('button');
                     nextButton.innerText = 'Next';
                     nextButton.addEventListener('click', () => {
-                        window.location.href = nextPage;
+                        window.location.href = section.nextPage;
                     });
                     displayElement.appendChild(nextButton);
                 }
             });
-        } else if (!form) {
-            console.error(`Form with ID ${formId} not found`);
-        } else if (!displayElement) {
-            console.error(`Display element with ID ${displayId} not found`);
+        } else {
+            console.error(`Form or display element with ID ${section.formId} or ${section.displayId} not found`);
         }
-    };
-
-    handleSubmitAndDisplay('personal-details-form', 'personal-details-display', [
-        {name: 'name', label: 'Name'},
-        {name: 'age', label: 'Age'}
-        // Add more fields as necessary
-    ], 'education.html');
-
-    handleSubmitAndDisplay('education-form', 'education-display', [
-        {name: 'school', label: 'School'},
-        {name: 'date-from', label: 'From'},
-        {name: 'date-to', label: 'To'},
-        {name: 'grade', label: 'Grade'}
-    ], 'work-experience.html');
-
-    handleSubmitAndDisplay('work-experience-form', 'work-experience-display', [
-        {name: 'title', label: 'Job Title'},
-        {name: 'company', label: 'Company'},
-        {name: 'date-from', label: 'From'},
-        {name: 'date-to', label: 'To'}
-        // Add more fields as necessary
-    ], 'skills.html');
-
-    handleSubmitAndDisplay('skills-form', 'skills-display', [
-        {name: 'skill', label: 'Skill'},
-        {name: 'proficiency', label: 'Proficiency'}
-    ], 'objective.html');
-
-    handleSubmitAndDisplay('objective-form', 'objective-display', [
-        {name: 'objective', label: 'Objective'}
-    ], 'references.html');
-
-    handleSubmitAndDisplay('references-form', 'references-display', [
-        {name: 'name', label: 'Name'},
-        {name: 'title', label: 'Title'},
-        {name: 'phone', label: 'Phone'},
-        {name: 'email', label: 'Email'}
-    ], 'resume.html');
+    });
 
     const generateResumeButton = document.getElementById('generate-resume');
     const resumePreview = document.getElementById('resume-preview');
     const downloadResumeButton = document.getElementById('download-resume');
     const templateSelect = document.getElementById('resume-template-select');
 
+    function gatherData() {
+        const data = sections.reduce((acc, section) => {
+            const displayElement = document.getElementById(section.displayId);
+            if (displayElement) {
+                acc[section.displayId] = displayElement.innerHTML;
+            }
+            return acc;
+        }, {});
+        return data;
+    }
+
     if (generateResumeButton) {
         generateResumeButton.addEventListener('click', () => {
-            const personalDetails = { /* gather personal details */ };
-            const education = { /* gather education details */ };
-            const workExperience = { /* gather work experience */ };
-            const skills = { /* gather skills */ };
-            const references = { /* gather references */ };
-            const objective = { /* gather objective */ };
-
-            const selectedTemplate = templateSelect.value;
+            const data = gatherData();
+            const selectedTemplate = templateSelect ? templateSelect.value : 'template1';
             let resumeHtml = '';
 
             switch (selectedTemplate) {
                 case 'template1':
-                    resumeHtml = generateTemplate1(personalDetails, education, workExperience, skills, references, objective);
+                    resumeHtml = generateTemplate1(data);
                     break;
                 case 'template2':
-                    resumeHtml = generateTemplate2(personalDetails, education, workExperience, skills, references, objective);
+                    resumeHtml = generateTemplate2(data);
                     break;
+                default:
+                    resumeHtml = generateTemplate1(data);
             }
 
-            resumePreview.innerHTML = resumeHtml;
-            downloadResumeButton.style.display = 'inline'; 
+            if (resumePreview) {
+                resumePreview.innerHTML = resumeHtml;
+                downloadResumeButton.style.display = 'inline';
+            }
         });
     }
 
@@ -140,40 +94,38 @@ document.addEventListener('DOMContentLoaded', () => {
             URL.revokeObjectURL(url);
         });
     }
-});
 
-function generateTemplate1(personalDetails, education, workExperience, skills, references, objective) {
-    return `
-        <h1>${personalDetails.name}</h1>
-        <p>${personalDetails.age}</p>
-        <h2>Education</h2>
-        ${education.map(ed => `<p>${ed.school} (${ed.dateFrom} - ${ed.dateTo}): ${ed.grade}</p>`).join('')}
-        <h2>Work Experience</h2>
-        ${workExperience.map(work => `<p>${work.title} at ${work.company} (${work.dateFrom} - ${work.dateTo}): ${work.description}</p>`).join('')}
-        <h2>Skills</h2>
-        ${skills.map(skill => `<p>${skill.skill}: ${skill.proficiency}</p>`).join('')}
-        <h2>Objective</h2>
-        <p>${objective}</p>
-        <h2>References</h2>
-        ${references.map(ref => `<p>${ref.name}, ${ref.title}, ${ref.phone}, ${ref.email}</p>`).join('')}
-    `;
-}
-
-function generateTemplate2(personalDetails, education, workExperience, skills, references, objective) {
-    return `
-        <div style="border: 2px solid black; padding: 10px;">
-            <h1>${personalDetails.name}</h1>
-            <p>${personalDetails.age}</p>
+    function generateTemplate1(data) {
+        return `
+            <h1>${data['personal-details-display']}</h1>
             <h2>Education</h2>
-            ${education.map(ed => `<p>${ed.school} (${ed.dateFrom} - ${ed.dateTo}): ${ed.grade}</p>`).join('')}
-            <h2>Experience</h2>
-            ${workExperience.map(work => `<p>${work.title} at ${work.company} (${work.dateFrom} - ${work.dateTo}): ${work.description}</p>`).join('')}
+            ${data['education-display']}
+            <h2>Work Experience</h2>
+            ${data['work-experience-display']}
             <h2>Skills</h2>
-            ${skills.map(skill => `<p>${skill.skill}: ${skill.proficiency}</p>`).join('')}
+            ${data['skills-display']}
             <h2>Objective</h2>
-            <p>${objective}</p>
+            ${data['objective-display']}
             <h2>References</h2>
-            ${references.map(ref => `<p>${ref.name}, ${ref.title}, ${ref.phone}, ${ref.email}</p>`).join('')}
-        </div>
-    `;
-}
+            ${data['references-display']}
+        `;
+    }
+
+    function generateTemplate2(data) {
+        return `
+            <div style="border: 2px solid black; padding: 10px;">
+                <h1>${data['personal-details-display']}</h1>
+                <h2>Education</h2>
+                ${data['education-display']}
+                <h2>Experience</h2>
+                ${data['work-experience-display']}
+                <h2>Skills</h2>
+                ${data['skills-display']}
+                <h2>Objective</h2>
+                ${data['objective-display']}
+                <h2>References</h2>
+                ${data['references-display']}
+            </div>
+        `;
+    }
+});
