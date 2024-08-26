@@ -129,14 +129,14 @@ button[type="submit"] {
     padding: 10px 20px;
     font-size: 18px;
     color: #fff;
-    background-color: #007bff;
+    background-color: orange;
     text-decoration: none;
     border-radius: 5px;
     text-align: center;
 }
 
 .generate-btn:hover {
-    background-color: #0056b3;
+    background-color:orange;
 }
 
 textarea {
@@ -148,4 +148,14 @@ textarea {
     border-radius: 5px;
     box-sizing: border-box;
     margin-bottom: 20px;
+}
+
+#download-resume {
+    display: inline;
+    margin-top: 20px;
+}
+#resume-template-select {
+    font-size: 16px;
+    padding: 8px;
+    margin-top: 10px;
 }

@@ -1,11 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
     const sections = [
-        {formId: 'personal-details-form', displayId: 'personal-details-display', fields: ['name', 'age'], nextPage: 'education.html'},
-        {formId: 'education-form', displayId: 'education-display', fields: ['school', 'date-from', 'date-to', 'grade'], nextPage: 'work-experience.html'},
-        {formId: 'work-experience-form', displayId: 'work-experience-display', fields: ['title', 'company', 'date-from', 'date-to'], nextPage: 'skills.html'},
-        {formId: 'skills-form', displayId: 'skills-display', fields: ['skill', 'proficiency'], nextPage: 'objective.html'},
-        {formId: 'objective-form', displayId: 'objective-display', fields: ['objective'], nextPage: 'references.html'},
-        {formId: 'references-form', displayId: 'references-display', fields: ['name', 'title', 'phone', 'email'], nextPage: 'resume.html'}
+        {formId: 'personal-details-form', displayId: 'personal-details-section', fields: ['name', 'age', 'email', 'phone', 'address'], nextPage: 'education.html'},
+        {formId: 'education-form', displayId: 'education-section', fields: ['school', 'date-from', 'date-to', 'grade'], nextPage: 'work-experience.html'},
+        {formId: 'work-experience-form', displayId: 'work-experience-section', fields: ['title', 'company', 'date-from', 'date-to'], nextPage: 'skills.html'},
+        {formId: 'skills-form', displayId: 'skills-section', fields: ['skill', 'proficiency'], nextPage: 'objective.html'},
+        {formId: 'objective-form', displayId: 'objective-section', fields: ['objective'], nextPage: 'references.html'},
+        {formId: 'references-form', displayId: 'references-section', fields: ['name', 'title', 'phone', 'email'], nextPage: 'resume.html'}
     ];
 
     sections.forEach(section => {
@@ -15,19 +15,27 @@ document.addEventListener('DOMContentLoaded', () => {
         if (form && displayElement) {
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
+                
+                // Save form data
                 const formData = new FormData(this);
                 const details = Object.fromEntries(formData.entries());
 
-                const item = document.createElement('div');
+                // Display data in the current section
+                displayElement.innerHTML = '';  // Clear current content
                 section.fields.forEach(field => {
-                    item.innerHTML += `<p><strong>${field}:</strong> ${details[field]}</p>`;
+                    if (details[field]) {
+                        displayElement.innerHTML += `<p><strong>${field}:</strong> ${details[field]}</p>`;
+                    }
                 });
+                displayElement.innerHTML += '<hr>';
+                
+                // Save data to localStorage
+                saveFormData(section.formId, details);
 
-                item.innerHTML += '<hr>';
-                displayElement.insertBefore(item, displayElement.firstChild);
-
+                // Reset form
                 this.reset();
 
+                // Add a "Next" button to proceed to the next section
                 if (section.nextPage) {
                     const nextButton = document.createElement('button');
                     nextButton.innerText = 'Next';
@@ -42,24 +50,35 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    function saveFormData(formId, details) {
+        localStorage.setItem(formId, JSON.stringify(details));
+    }
+    
+    function loadFormData() {
+        sections.forEach(section => {
+            const data = JSON.parse(localStorage.getItem(section.formId)) || {};
+            const sectionElement = document.getElementById(section.displayId);
+            if (sectionElement) {
+                sectionElement.innerHTML = ''; // Clear existing content
+                section.fields.forEach(field => {
+                    if (data[field]) {
+                        sectionElement.innerHTML += `<p><strong>${field}:</strong> ${data[field]}</p>`;
+                    }
+                });
+                sectionElement.innerHTML += '<hr>';
+            }
+        });
+    }
+
+    loadFormData();
+
     const generateResumeButton = document.getElementById('generate-resume');
     const resumePreview = document.getElementById('resume-preview');
     const downloadResumeButton = document.getElementById('download-resume');
     const templateSelect = document.getElementById('resume-template-select');
 
-    function gatherData() {
-        const data = sections.reduce((acc, section) => {
-            const displayElement = document.getElementById(section.displayId);
-            if (displayElement) {
-                acc[section.displayId] = displayElement.innerHTML;
-            }
-            return acc;
-        }, {});
-        return data;
-    }
-
     if (generateResumeButton) {
-        generateResumeButton.addEventListener('click', () => {
+        generateResumeButton.addEventListener('click', () => { 
             const data = gatherData();
             const selectedTemplate = templateSelect ? templateSelect.value : 'template1';
             let resumeHtml = '';
@@ -77,54 +96,62 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (resumePreview) {
                 resumePreview.innerHTML = resumeHtml;
-                downloadResumeButton.style.display = 'inline';
+                downloadResumeButton.style.display = 'inline';  // Make sure the button is visible
             }
         });
     }
-
+    
     if (downloadResumeButton) {
         downloadResumeButton.addEventListener('click', () => {
-            const resumeContent = resumePreview.innerHTML;
-            const blob = new Blob([resumeContent], { type: 'text/html' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'resume.html';
-            a.click();
-            URL.revokeObjectURL(url);
+            const element = document.getElementById('resume-preview');
+            html2pdf().from(element).save('resume.pdf');
         });
+    }
+
+    function gatherData() {
+        return sections.reduce((acc, section) => {
+            const displayElement = document.getElementById(section.displayId);
+            if (displayElement) {
+                acc[section.displayId] = displayElement.innerHTML;
+            }
+            return acc;
+        }, {});
     }
 
     function generateTemplate1(data) {
         return `
-            <h1>${data['personal-details-display']}</h1>
+            <h1>Resume</h1>
+            <h2>Personal Details</h2>
+            ${data['personal-details-section']}
             <h2>Education</h2>
-            ${data['education-display']}
+            ${data['education-section']}
             <h2>Work Experience</h2>
-            ${data['work-experience-display']}
+            ${data['work-experience-section']}
             <h2>Skills</h2>
-            ${data['skills-display']}
+            ${data['skills-section']}
             <h2>Objective</h2>
-            ${data['objective-display']}
+            ${data['objective-section']}
             <h2>References</h2>
-            ${data['references-display']}
+            ${data['references-section']}
         `;
     }
-
+    
     function generateTemplate2(data) {
         return `
             <div style="border: 2px solid black; padding: 10px;">
-                <h1>${data['personal-details-display']}</h1>
+                <h1>Resume</h1>
+                <h2>Personal Details</h2>
+                ${data['personal-details-section']}
                 <h2>Education</h2>
-                ${data['education-display']}
+                ${data['education-section']}
                 <h2>Experience</h2>
-                ${data['work-experience-display']}
+                ${data['work-experience-section']}
                 <h2>Skills</h2>
-                ${data['skills-display']}
+                ${data['skills-section']}
                 <h2>Objective</h2>
-                ${data['objective-display']}
+                ${data['objective-section']}
                 <h2>References</h2>
-                ${data['references-display']}
+                ${data['references-section']}
             </div>
         `;
     }

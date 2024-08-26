@@ -3,47 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Generated Resume</title>
-    <style>
-        /* Add some basic styling for preview */
-        #resume-preview {
-            border: 1px solid #ddd;
-            padding: 10px;
-            margin: 10px 0;
-        }
-        #resume-template-select {
-            margin-bottom: 10px;
-        }
-    </style>
-    <link rel="stylesheet" href="styles.css">
+    <title>Generated Resume</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-    <div class="container">
-        <h1 id="resumeFullName"></h1>
-        <p id="resumeEmail"></p>
-        <p id="resumePhone"></p>
-        <p id="resumeAddress"></p>
+    <div id="resume-preview">
+        <h2>Personal Details</h2>
+        <!-- Personal Details Section -->
+        <div id="personal-details-section"></div>
+
+        <h2>Education</h2>
+        <!-- Education Section -->
+        <div id="education-section"></div>
+
+
+        <h2>Work Experience</h2>
+        <!-- Work Experience Section -->
+        <div id="work-experience-section"></div> 
         
-        <h3>Objective</h3>
-        <p id="resumeObjective"></p>
+        <h2>Skills</h2>
+        <!-- Skills Section -->
+        <div id="skills-section"></div>
 
-        <h3>Education</h3>
-        <div id="resumeEducation"></div>
 
-        <h3>Work Experience</h3>
-        <div id="resumeExperience"></div>
+        <h2>Objective</h2>
+        <!-- Objective Section -->
+        <div id="objective-section"></div>
 
-        <h3>Skills</h3>
-        <div id="resumeSkills"></div>
 
-        <h3>References</h3>
-        <p id="resumeReferences"></p>
+        <h2>References</h2>
+        <!-- References Section -->
+        <div id="references-section"></div>
 
+        
+
+        <!-- Download Resume Button -->
+        <button id="download-resume" style="display: inline;">Download Resume</button>
+        <select id="resume-template-select">
+            <option value="template1">Template 1</option>
+            <option value="template2">Template 2</option>
+        </select>
+
+
+        <!-- Generate Resume Button -->
         <button id="generate-resume">Generate Resume</button>
-        <button id="download-resume" style="display:none;">Download Resume as PDF</button>
+
+        
     </div>
+
+
+    
     <script src="script.js"></script>
+    
+
 </body>
-<footer>Resume builder 2024</footer>
 </html>
