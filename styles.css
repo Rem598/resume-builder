@@ -7,8 +7,11 @@
 
 body {
     font-family: Arial, sans-serif;
+    display: flex;
     margin: 0;
     padding: 0;
+    justify-content: center;
+    align-items: center;
     background: linear-gradient(to right, rgb(68, 184, 219), rgb(69, 233, 205));
 }
 
@@ -80,7 +83,7 @@ textarea {
 }
 
 button {
-    background-color: #007bff;
+    background-color: green;
     color: white;
     border: none;
     padding: 10px 15px;
@@ -158,4 +161,47 @@ textarea {
     font-size: 16px;
     padding: 8px;
     margin-top: 10px;
+}
+.resume-container {
+    background: linear-gradient(to right, rgb(68, 184, 219), rgb(69, 233, 205));
+    padding: 70px;
+    display:flex;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#download-btn {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+/* Print styles */
+@media print {
+    body {
+        display: block; /* Override Flexbox layout for print */
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+
+    }
+
+    .resume-container {
+        box-shadow: none; /* Remove shadow for print */
+        margin: 0; /* Center container horizontally */
+        width: 100%;
+        padding:20px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); /* Center horizontally and vertically */
+        max-width: none; /* Ensure it fits within the print margins */
+        page-break-inside: avoid; /* Avoid breaking the container across pages */
+    }
 }

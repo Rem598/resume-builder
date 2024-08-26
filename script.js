@@ -80,19 +80,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (generateResumeButton) {
         generateResumeButton.addEventListener('click', () => { 
             const data = gatherData();
-            const selectedTemplate = templateSelect ? templateSelect.value : 'template1';
-            let resumeHtml = '';
+            
+            let resumeHtml =  generateTemplate1(data); // Assuming Template 1 for simplicity ;
 
-            switch (selectedTemplate) {
-                case 'template1':
-                    resumeHtml = generateTemplate1(data);
-                    break;
-                case 'template2':
-                    resumeHtml = generateTemplate2(data);
-                    break;
-                default:
-                    resumeHtml = generateTemplate1(data);
-            }
+            
 
             if (resumePreview) {
                 resumePreview.innerHTML = resumeHtml;
@@ -103,9 +94,22 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (downloadResumeButton) {
         downloadResumeButton.addEventListener('click', () => {
-            const element = document.getElementById('resume-preview');
-            html2pdf().from(element).save('resume.pdf');
-        });
+            // Hide UI elements before generating PDF
+            generateResumeButton.style.display = 'none';
+            downloadResumeButton.style.display = 'none';
+            templateSelect.style.display = 'none';
+
+            // Convert the resume preview to PDF
+            html2pdf()
+                .from(resumePreview)
+                .save('resume.pdf')
+                .then(() => {
+                    // Show UI elements back after PDF is generated
+                    generateResumeButton.style.display = 'inline';
+                    downloadResumeButton.style.display = 'inline';
+                    templateSelect.style.display = 'inline';
+                });
+        });    
     }
 
     function gatherData() {
